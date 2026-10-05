@@ -80,21 +80,21 @@ namespace APODPlugin
                     client.OpenReadCompleted -= readComplete;
                     client.Dispose();
 
-                    //Find the previous page URL as well... i.e. <a href="ap130319.html">&lt;</a>
+                    // Find the previous page URL as well... i.e. <a href="ap130319.html">&lt;</a>
                     Match prevMatcher = Regex.Match(pagesource, "(?<=<a href=\")(.+?)(?=\">&lt;</a>)");
-                    String prevURL = "http://apod.nasa.gov/apod/" + prevMatcher.Value;
+                    String prevURL = "https://apod.nasa.gov/apod/" + prevMatcher.Value;
                     if (!apodURLs.Contains(prevURL))
                         apodURLs.Add(prevURL);
 
-                    //Look for information
+                    // Look for information
                     Match infoMatcher = Regex.Match(pagesource, "(?<=<b> Explanation: </b>)(.+?)(?=<p> <center>)", RegexOptions.Singleline);
                     if (infoMatcher.Success)
                         information = StripTagsCharArray(infoMatcher.Value).Replace("\n"," ");
                     else
                         information = "No information found!";
 
-                    //Look for the title.
-                    //e.g. <center><b> Sunspot at Sunset </b> <br>
+                    // Look for the title.
+                    // e.g. <center><b> Sunspot at Sunset </b> <br>
                     Match titleMatcher = Regex.Match(pagesource, "(?<=<b>)(.+?)(?=</b>\\s<br>)", RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace);
                     if (titleMatcher.Success)
                         title = titleMatcher.Value;
@@ -105,7 +105,7 @@ namespace APODPlugin
                     Match sourceMatcher = Regex.Match(pagesource, "(?<=<IMG SRC=\")(.+?)(?=\")", RegexOptions.Singleline);
                     if (sourceMatcher.Success)
                     {
-                        imageURL = "http://apod.nasa.gov/apod/" + sourceMatcher.Value;
+                        imageURL = "https://apod.nasa.gov/apod/" + sourceMatcher.Value;
                         downloadImage(imageURL);
                     }
                     else
